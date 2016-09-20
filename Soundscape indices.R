@@ -1,4 +1,4 @@
-#make all previous scripts general and less shit
+#attempt to make all previous scripts general
 
 require(soundecology)
 require(tuneR)
