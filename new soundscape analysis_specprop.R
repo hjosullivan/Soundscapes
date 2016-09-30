@@ -89,7 +89,7 @@ ss_metrics <- function(list_of_wavs, device_naming = c("sm3", "other_naming_opti
 }
 
 #list of files
-ss_metrics(many_wavs, device_naming = "sm3")
+ss_metrics(all_wavs, device_naming = "SM3")
 
 #export results
 write.table(t,paste("~/Desktop"), sep = ",", col.names = T, row.names = F)
