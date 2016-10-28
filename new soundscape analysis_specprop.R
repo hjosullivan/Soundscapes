@@ -43,7 +43,10 @@ library(seewave)
 library(tuneR)
 library(soundecology)
 
-setwd()
+getwd()
+input.dir <- ''
+file.path(input.dir)
+ts.wavs <- list.files(input.dir, pattern=".wav", recursive=FALSE, full.names=TRUE)
 
 #############################################################
 ## function to convert specprop list values to a dataframe ##
@@ -51,15 +54,22 @@ setwd()
 
 ss_metrics <- function(x){
   #import data
+  cat('Analysing [', path, ']\n', sep='')
   load_in <- tuneR::readWave(x)
   
+  #bwfilter
+  s.bw <- seewave::bwfilter(load_in, f = NULL, bandpass = NULL, to = 500, output = "Wave")
+  
   #spec
-  firstspec <- seewave::spec(load_in, f = NULL)
+  firstspec <- seewave::spec(s.bw, f = NULL)
   
   #specprop
   spec.prop <- seewave::specprop(firstspec, f = NULL, str = FALSE, plot = FALSE)
   
-  temp <- data.frame(unlist(spec.prop), stringsAsFactors = F)
+  #zcr
+  s.zcr <- seewave::zcr(load_in, f = NULL, wl = NULL, plot = FALSE)
+  
+  temp <- data.frame(unlist(spec.prop), stringsAsFactors = FALSE)
   temp$ColNames <- rownames(temp)
   temp <- tidyr::spread(temp, ColNames, unlist.spec.prop.)
   temp$id <- basename(x)
